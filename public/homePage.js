@@ -9,6 +9,8 @@ logoutBtn.action = () => {
         );
 }
 
+profileWidget = new ProfileWidget();
+
 ApiConnector.current((profile) => {
     if (profile.success) {
         ProfileWidget.showProfile(profile.data);
@@ -24,44 +26,40 @@ function getCurrency() {
             tableBody.fillTable(stocks.data);
         }
     });
-    //setInterval(getCurrency, 60000);
+    setInterval(getCurrency, 60000);
 };
 
 getCurrency();
 
-addMoneyForm = new MoneyManager();
+moneyForm = new MoneyManager();
 
-addMoneyForm.addMoneyCallback = (data) => {
+moneyForm.addMoneyCallback = (data) => {
     ApiConnector.addMoney(data, (f) => {
         if (f.success) {
-            addMoneyForm.showProfile();
+            ProfileWidget.showProfile(f.data);
         } else {
-            addMoneyForm.setMessage(f.success, f.error);
+            moneyForm.setMessage(f.success, f.error);
         }
     })
 }
 
-conversionMoneyForm = new MoneyManager();
-
-conversionMoneyForm.conversionMoneyCallback = (data) => {
+moneyForm.conversionMoneyCallback = (data) => {
     ApiConnector.convertMoney(data, (f) => {
         if (f.success) {
-            conversionMoneyForm.showProfile();
+            ProfileWidget.showProfile(f.data);
         } else {
-            conversionMoneyForm.setMessage(f.success, f.error);
+            moneyForm.setMessage(f.success, f.error);
         }
     })
 }
 
-sendMoneyForm = new MoneyManager();
 
-
-sendMoneyForm.sendMoneyCallback = (data) => {
+moneyForm.sendMoneyCallback = (data) => {
     ApiConnector.transferMoney(data, (f) => {
         if (f.success) {
-            sendMoneyForm.showProfile();
+            ProfileWidget.showProfile(f.data);
         } else {
-            sendMoneyForm.setMessage(f.success, f.error);
+            moneyForm.setMessage(f.success, f.error);
         }
     }) 
 }
@@ -72,7 +70,7 @@ ApiConnector.getFavorites((favorites) => {
     if (favorites.success) {
         favoritesTableBody.clearTable();
         favoritesTableBody.fillTable(favorites.data);
-        favoritesTableBody.updateUsersList(favorites.data);
+        moneyForm.updateUsersList(favorites.data);
     }
 });
 
@@ -81,7 +79,7 @@ favoritesTableBody.addUserCallback = (data) => {
         if (f.success) {
             favoritesTableBody.clearTable();
             favoritesTableBody.fillTable(favorites.data);
-            favoritesTableBody.updateUsersList(favorites.data);
+            moneyForm.updateUsersList(favorites.data);
         } else {
             favoritesTableBody.setMessage(f.error);
         }
@@ -93,7 +91,7 @@ favoritesTableBody.removeUserCallback = (data) => {
         if (f.success) {
             favoritesTableBody.clearTable();
             favoritesTableBody.fillTable(favorites.data);
-            favoritesTableBody.updateUsersList(favorites.data);
+            moneyForm.updateUsersList(favorites.data);
         } else {
             favoritesTableBody.setMessage(f.error);
         }
