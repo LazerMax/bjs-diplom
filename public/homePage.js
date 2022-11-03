@@ -78,8 +78,8 @@ favoritesTableBody.addUserCallback = (data) => {
     ApiConnector.addUserToFavorites(data, (f) => {
         if (f.success) {
             favoritesTableBody.clearTable();
-            favoritesTableBody.fillTable(favorites.data);
-            moneyForm.updateUsersList(favorites.data);
+            favoritesTableBody.fillTable(f.data);
+            moneyForm.updateUsersList(f.data);
         } else {
             favoritesTableBody.setMessage(f.error);
         }
@@ -90,8 +90,8 @@ favoritesTableBody.removeUserCallback = (data) => {
     ApiConnector.removeUserFromFavorites(data, (f) => {
         if (f.success) {
             favoritesTableBody.clearTable();
-            favoritesTableBody.fillTable(favorites.data);
-            moneyForm.updateUsersList(favorites.data);
+            favoritesTableBody.fillTable(f.data);
+            moneyForm.updateUsersList(f.data);
         } else {
             favoritesTableBody.setMessage(f.error);
         }
